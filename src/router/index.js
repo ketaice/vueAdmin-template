@@ -1,4 +1,4 @@
-import Vue from 'vue'
+﻿import Vue from 'vue'
 import Router from 'vue-router'
 
 // in development-env not use lazy-loading, because lazy-loading too many pages will cause webpack hot update too slow. so only in production use lazy-loading;
@@ -8,6 +8,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '../views/layout/Layout'
+import SimpleLayout from '../views/layout/SimpleLayout'
 
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
@@ -23,16 +24,33 @@ import Layout from '../views/layout/Layout'
 **/
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
-  { path: '/404', component: () => import('@/views/404'), hidden: true },
 
   {
     path: '/',
+    component: SimpleLayout,
+    redirect: '/liveview',
+    name: 'LiveView',
+    hidden: true,
+    children: [
+      {
+        path: 'liveview',
+        component: () => import('@/views/liveview/index'),
+        meta: { activeIndex: '1' }
+      }
+    ]
+  },
+
+  { path: '/playback', hidden: true },
+  { path: '/log', hidden: true },
+  { path: '/404', component: () => import('@/views/404'), hidden: true },
+
+  {
+    path: '/dashboard',
     component: Layout,
-    redirect: '/dashboard',
     name: 'Dashboard',
     hidden: true,
     children: [{
-      path: 'dashboard',
+      path: 'index',
       component: () => import('@/views/dashboard/index')
     }]
   },

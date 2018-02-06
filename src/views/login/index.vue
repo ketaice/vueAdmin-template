@@ -1,8 +1,7 @@
-<template>
+﻿<template>
   <div class="login-container">
     <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
       class="card-box login-form">
-      <h3 class="title">vue-element-admin</h3>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
           <svg-icon icon-class="user" />
@@ -22,10 +21,10 @@
           Sign in
         </el-button>
       </el-form-item>
-      <div class="tips">
+      <!-- <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
         <span> password: admin</span>
-      </div>
+      </div> -->
     </el-form>
   </div>
 </template>
@@ -44,16 +43,16 @@ export default {
       }
     }
     const validatePass = (rule, value, callback) => {
-      if (value.length < 5) {
-        callback(new Error('密码不能小于5位'))
+      if (value.length < 6) {
+        callback(new Error('密码不能小于6位'))
       } else {
         callback()
       }
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: 'admin'
+        username: '',
+        password: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -95,6 +94,7 @@ export default {
   $bg:#2d3a4b;
   $dark_gray:#889aa4;
   $light_gray:#eee;
+  $img_login_bg: url(/static/oem_images/login_bg.png);
 
   .login-container {
     position: fixed;
@@ -149,6 +149,7 @@ export default {
       width: 400px;
       padding: 35px 35px 15px 35px;
       margin: 120px auto;
+      //background: $img_login_bg no-repeat;
     }
     .el-form-item {
       border: 1px solid rgba(255, 255, 255, 0.1);

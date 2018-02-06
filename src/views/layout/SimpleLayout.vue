@@ -1,32 +1,26 @@
-﻿<template>
-  <div class="app-wrapper" :class="{hideSidebar:!sidebar.opened}">
+<template>
+  <div class="app-wrapper">
     <navbar :active-index="activeIndex"></navbar>
     <div class="main-container">
-      <sidebar class="sidebar-container"></sidebar>
       <app-main></app-main>
     </div>
   </div>
 </template>
 
 <script>
-import { Navbar, Sidebar, AppMain } from '@/views/layout/components'
+import { Navbar, AppMain } from '@/views/layout/components'
 
 export default {
-  name: 'layout',
+  name: 'liveLayout',
   data() {
+    console.log(this.$route.meta)
     return {
-      activeIndex: '4'
+      activeIndex: this.$route.meta.activeIndex
     }
   },
   components: {
     Navbar,
-    Sidebar,
     AppMain
-  },
-  computed: {
-    sidebar() {
-      return this.$store.state.app.sidebar
-    }
   }
 }
 </script>

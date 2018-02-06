@@ -1,5 +1,6 @@
-import { login, logout, getInfo } from '@/api/login'
+﻿import { login, logout } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+var xmlParse = require('fast-xml-parser')
 
 const user = {
   state: {
@@ -30,10 +31,19 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
-          const data = response.data
-          setToken(data.token)
-          commit('SET_TOKEN', data.token)
-          resolve()
+          const xmlData = response
+          if (xmlParse.validate(xmlData) === true) {
+            var jsonObj = xmlParse.parse(xmlData)
+            if (jsonObj.userCheck.statusValue === 200) {
+              var authData = new Buffer(username + ':' + userInfo.password).toString('base64')
+              setToken(authData)
+              commit('SET_NAME', username)
+              commit('SET_TOKEN', authData)
+              resolve()
+              return
+            }
+          }
+          reject()
         }).catch(error => {
           reject(error)
         })
@@ -42,7 +52,7 @@ const user = {
 
     // 获取用户信息
     GetInfo({ commit, state }) {
-      return new Promise((resolve, reject) => {
+      /* return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
           const data = response.data
           commit('SET_ROLES', data.roles)
@@ -52,6 +62,16 @@ const user = {
         }).catch(error => {
           reject(error)
         })
+      }) */
+      return new Promise((resolve, reject) => {
+        var token = getToken()
+        if (token) {
+          var userData = new Buffer(token, 'base64')
+          commit('SET_NAME', userData.toString().split(':')[0])
+          resolve()
+        } else {
+          reject()
+        }
       })
     },
 

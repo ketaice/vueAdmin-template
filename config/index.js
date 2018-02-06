@@ -1,4 +1,4 @@
-'use strict'
+﻿'use strict'
 // Template version: 1.2.6
 // see http://vuejs-templates.github.io/webpack for documentation.
 
@@ -10,7 +10,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/ISAPI': {
+        target: "http://192.168.30.248",
+        pathRewrite: {
+          '^/ISAPI': '/ISAPI',
+          '^/HSDK': '/HSDK'
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -33,7 +41,7 @@ module.exports = {
      */
 
     // https://webpack.js.org/configuration/devtool/#development
-    devtool: 'cheap-source-map',
+    devtool: 'eval-source-map',
 
     // If you have problems debugging vue-files in devtools,
     // set this to false - it *may* help
