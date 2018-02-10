@@ -2,25 +2,39 @@
   <div class="app-wrapper">
     <navbar :active-index="activeIndex"></navbar>
     <div class="main-container">
-      <app-main></app-main>
+      <chn-list-sidebar
+        :nav-active-index="activeIndex"
+        v-on:clickChannel="clickChannel"
+        class="sidebar-container"
+      ></chn-list-sidebar>
+      <app-main ref="main"></app-main>
     </div>
   </div>
 </template>
 
 <script>
-import { Navbar, AppMain } from '@/views/layout/components'
+import { Navbar, ChnListSidebar, AppMain } from '@/views/layout/components'
 
 export default {
-  name: 'liveLayout',
+  name: 'simpleLayout',
   data() {
-    console.log(this.$route.meta)
+    // console.log(this.$route.meta)
     return {
       activeIndex: this.$route.meta.activeIndex
     }
   },
   components: {
     Navbar,
+    ChnListSidebar,
     AppMain
+  },
+  methods: {
+    clickChannel: function(id) {
+      console.log('Click channel: ' + id)
+      // console.log(this.$children)
+      // console.log(this.$refs.main.$refs)
+      this.$refs.main.$refs.content.$emit('play', id)
+    }
   }
 }
 </script>
