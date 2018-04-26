@@ -33,7 +33,7 @@ export default {
       console.log('Click channel: ' + id)
       // console.log(this.$children)
       // console.log(this.$refs.main.$refs)
-      this.$refs.main.$refs.content.$emit('play', id)
+      this.$refs.main.$refs.content.$emit('live-play', id)
     }
   }
 }

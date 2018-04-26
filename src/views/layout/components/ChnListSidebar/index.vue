@@ -84,6 +84,8 @@ export default {
             })
           }
           self.channelList = tmpChannelList
+          // Auto play...
+          self.$emit('clickChannel', (self.channelCount + 1))
         })
         .catch(e => console.log(e))
     }
